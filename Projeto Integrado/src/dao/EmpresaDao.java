@@ -105,7 +105,7 @@ public int getNumero(){
 	    }
 	    catch (Exception e)
 	    {
-	    	 JOptionPane.showMessageDialog(null, "Mensagem generica de erro de bd");
+	    	 JOptionPane.showMessageDialog(null, e.getMessage());
 	    	//e.printStackTrace();
 	       try
 	       {

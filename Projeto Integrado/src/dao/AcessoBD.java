@@ -32,7 +32,7 @@ public class AcessoBD
  public Connection obtemConexao() throws SQLException
  {
     return DriverManager.getConnection(
-             "jdbc:mysql://localhost/empresa?user=root&password=123" ) ;
+             "jdbc:mysql://localhost/empresa?user=alunos&password=alunos" ) ;
     		//"jdbc:mysql://localhost/empresa?user=alunos&password=alunos" );
  }
 }

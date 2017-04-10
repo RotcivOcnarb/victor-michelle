@@ -14,13 +14,13 @@ public class Empresa {
 	private int conjunto;
 	private int numero;
 	ArrayList<Empresa> ar = new ArrayList<Empresa> ();
-	public Empresa(String a ,String b,String c, String d , String e ){
+	public Empresa(String cnpj ,String razao_social,String hora_abertura, String hora_fechamento , String temperatura_ar ){
 	
-	setCnpj(a);
-	setRazaoSocial(b);
-	setHoraAbertura(c);
-	setHoraFechamento(d);
-	setTemperaturaAr(e);
+	setCnpj(cnpj);
+	setRazaoSocial(razao_social);
+	setHoraAbertura(hora_abertura);
+	setHoraFechamento(hora_fechamento);
+	setTemperaturaAr(temperatura_ar);
 	
 	
 	
