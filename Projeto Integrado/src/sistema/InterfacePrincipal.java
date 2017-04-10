@@ -9,13 +9,13 @@ import java.awt.*;
 import javax.swing.*;
 import interfacesCadastroConsulta.*;
 import login.CriaLogin;
-import login.LoginGUI;
 import model.Pessoa;
 
 
 
 
 public class InterfacePrincipal extends JFrame {
+	private static final long serialVersionUID = 1L;
 		private Container c;
 		private JButton [] jb;
 		private JRadioButtonMenuItem empresa,funcionario;

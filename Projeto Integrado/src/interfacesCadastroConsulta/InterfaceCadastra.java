@@ -1,13 +1,12 @@
 package interfacesCadastroConsulta;
-import java.awt.event.*;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.awt.*;
 import javax.swing.*;
 
-import login.LoginGUI;
 
 public class InterfaceCadastra extends Interface {
+	private static final long serialVersionUID = 1L;
+	
 	protected JTable cad;
 	protected JButton save,cancel;	
 	protected String [] labelNome ={ bn.getString("menu.cadastro.cnpj"),bn.getString("menu.cadastro.razao"),

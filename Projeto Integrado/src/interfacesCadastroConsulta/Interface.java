@@ -6,11 +6,12 @@ import java.util.ResourceBundle;
 import java.awt.*;
 import javax.swing.*;
 
-import login.LoginGUI;
 import sistema.InterfacePrincipal;
 
 
 public class Interface extends JFrame implements ActionListener{
+	private static final long serialVersionUID = 1L;
+	
 	protected ResourceBundle bn;
 	protected JMenuItem reg[],close;
 	protected String regName[] = {"English","Portugues","Español"};

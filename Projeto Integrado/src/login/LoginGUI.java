@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginGUI extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private JLabel log,sen;
 	private JTextField tlog;
 	private JPasswordField pass;
@@ -110,7 +111,7 @@ public class LoginGUI extends JFrame {
 			if(e.getSource() == confirm){
 						
 				int a = Integer.parseInt(tlog.getText());
-				String b = pass.getText();
+				String b = new String(pass.getPassword());
 			
 				
 			

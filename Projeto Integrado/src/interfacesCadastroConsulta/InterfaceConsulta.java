@@ -4,12 +4,13 @@ import java.util.ResourceBundle;
 import java.awt.*;
 import javax.swing.*;
 
-import login.LoginGUI;
 import model.Empresa;
 import model.Pessoa;
 
 
 public class InterfaceConsulta extends Interface {
+	private static final long serialVersionUID = 1L;
+	
 	private JButton [] jb;
 	private int chave;
 	protected JTable cad;

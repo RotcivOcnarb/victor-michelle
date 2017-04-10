@@ -64,11 +64,9 @@ public class ListaConjunto{
 	}
 
 	private class Conjunto {
-		int id;
 		boolean ocupado;
 		
 		public Conjunto(int i, boolean c){
-		id= i;
 		ocupado = c;	
 		}
 		

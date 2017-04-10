@@ -6,9 +6,8 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 
-public class Painel extends JPanel
-{
-	
+public class Painel extends JPanel{
+	private static final long serialVersionUID = 1L;
 	//Atributo
 	private String arquivo;
 		
@@ -41,7 +40,6 @@ public class Painel extends JPanel
 		try
 		{
 			BufferedImage b = ImageIO.read( new File( getArquivo( ) ) );
-			 Dimension size = new Dimension(b.getWidth(null), b.getHeight(null));
 			gr.drawImage( b , null , 0 , 0 );
 			
 		}

@@ -19,12 +19,13 @@ import model.Empresa;
 import model.Pessoa;
 
 public class InterfaceCadastraFuncionario extends InterfaceCadastra {
+	private static final long serialVersionUID = 1L;
 	private JLabel cn,acesso;
 	private ArrayList<Empresa> ar;
 	private JCheckBox cb;
 	private JPanel painel;
-	private JComboBox jcb;
-	private Vector combo;
+	private JComboBox<Object> jcb;
+	private Vector<Object> combo;
 	private JLabel[] espaco;//1 sindico ; 2 atendente ; 3 funcionario ; 0 não entra no sistema ; 4 Administrador
 	private String [] cargos = {"Funcionario","Sindico","Atendente","FuncionarioAutorizado" };
 	private int user;//se 0 cadastro ; se 1 atualiza
@@ -124,7 +125,7 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 		
 		
 		
-		combo = new Vector();
+		combo = new Vector<Object>();
 		
 		painel = new JPanel();
 		painel.setLayout(new GridLayout(2,1));
@@ -133,7 +134,7 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 		ar = em.getArray();
 
 		Iterator<Empresa> it =  ar.iterator();
-		int contadorAux=0;
+		//int contadorAux=0;
 		//1 sindico ; 2 atendente ; 3 funcionario ; 0 não entra no sistema ; 4 Administrador
 				
 		
@@ -146,7 +147,7 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 		cn = new JLabel("CNPJ's:");
 		
 		
-		jcb = new JComboBox(combo);
+		jcb = new JComboBox<Object>(combo);
 		
 		
 		
@@ -303,7 +304,7 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 							getIdentificador(),
 							field[0].getText(),
 							perfil,
-							passP.getText(),
+							new String(passP.getPassword()),
 							field[1].getText(),
 							horaMinutoMax,
 							horaMinutoMin,

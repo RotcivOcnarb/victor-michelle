@@ -8,11 +8,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import model.Empresa;
 import model.Pessoa;
 
 
 public class InterfaceConsultaFuncionario extends InterfaceConsulta {
+	private static final long serialVersionUID = 1L;
+	
 	String[][] data;
 	ArrayList<Pessoa> ar;
 	String [] header1 = { "id", bn.getString("menu.cadastro.nome"),
@@ -123,8 +124,9 @@ public void setTabela(){
 			
 			DefaultTableModel model = new DefaultTableModel(data, header1);
 	        cad = new JTable(model) {
+				private static final long serialVersionUID = 1L;
 
-	            public boolean isCellEditable(int rowIndex, int columnIndex) {
+				public boolean isCellEditable(int rowIndex, int columnIndex) {
 	             
 	            	return false;
 	              

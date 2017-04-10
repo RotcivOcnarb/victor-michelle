@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import login.ListaAcesso;
 import model.ControleAr;
 
 public class InterfaceConsultaAr extends Interface{
+	private static final long serialVersionUID = 1L;
+	
 	private ArrayList<ControleAr> aa = new ArrayList<ControleAr>();
 	private String [] header1 ={
 			bn.getString("menu.menu.empresa"),
@@ -25,7 +25,6 @@ public class InterfaceConsultaAr extends Interface{
 			};
 	private String [][] data;
 	int [] temperaturaAtual ;
-	private JPanel jp;
 	private JTable cad;
 	private Container c;
 	private JScrollPane scrollPane;
@@ -104,8 +103,9 @@ public void setTabela(ArrayList<ControleAr> aa){
 		}
 				DefaultTableModel model = new DefaultTableModel(data, header1);
 		        cad = new JTable(model) {
+					private static final long serialVersionUID = 1L;
 
-		            public boolean isCellEditable(int rowIndex, int columnIndex) {
+					public boolean isCellEditable(int rowIndex, int columnIndex) {
 		             
 		            	return false;
 		              

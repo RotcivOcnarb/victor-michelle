@@ -1,7 +1,5 @@
 package login;
 
-import java.util.Arrays;
-
 public class Login {
 
 	public int perfil,id;

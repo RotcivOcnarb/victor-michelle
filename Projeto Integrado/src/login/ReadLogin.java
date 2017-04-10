@@ -196,6 +196,7 @@ public class ReadLogin {
               aux += encrypt[i];
          return aux;
 	}
+	@SuppressWarnings(value = { "deprecation" })
 	public boolean verificaHorario(){
 		
 		String aux = lg.getHemi();
@@ -223,7 +224,7 @@ public class ReadLogin {
 	   // System.out.println(date +"          "+dateCompareOne+"         "+dateCompareTwo);
 	    //System.out.println("comparacao   "+  String.valueOf(dateCompareOne.before( date ) && dateCompareTwo.after(date)));
 	    
-	    
+	   
 	    if(dateCompareOne.getHours() > dateCompareTwo.getHours()){
 	    	 if ( dateCompareOne.after (date ) && dateCompareTwo.after(date)) {
 	    			

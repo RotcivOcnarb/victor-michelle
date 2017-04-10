@@ -1,7 +1,6 @@
 package login;
 
 import java.awt.event.*;
-import java.text.NumberFormat;
 import java.awt.*;
 import javax.swing.*;
 
@@ -10,11 +9,15 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginGUICatraca extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel log,sen;
 	private JTextField tlog;
 	private JPasswordField pass;
 	private JButton confirm;
-	private JRadioButtonMenuItem idi[],close;
+	private JRadioButtonMenuItem idi[];
 	private ButtonGroup regGroup;
 	private String regName[] = {"English","Portugues","Español"};
 	private Container c;
@@ -99,7 +102,7 @@ public class LoginGUICatraca extends JFrame {
 			if(e.getSource() == confirm){
 						
 				int a = Integer.parseInt(tlog.getText());
-				String b = pass.getText();
+				String b = new String(pass.getPassword());
 			
 				
 			

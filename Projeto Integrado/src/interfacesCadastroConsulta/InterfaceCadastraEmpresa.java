@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.util.ResourceBundle;
 import javax.swing.*;
 
-import login.LoginGUI;
 import model.Empresa;
 import model.ListaConjunto;
 import sistema.InterfacePrincipal;
@@ -16,6 +15,7 @@ import sistema.InterfacePrincipal;
 
 
 public class InterfaceCadastraEmpresa extends InterfaceCadastra{
+	private static final long serialVersionUID = 1L;
 		ListaConjunto lc = new ListaConjunto();
 		boolean [] aux = lc.getIdsLivres();
 		String [] conjuntos = new String[lc.getNumero()];
@@ -112,7 +112,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 			boolean testa = false;
 			
 			try{
-				int x = Integer.parseInt(field[1].getText());
+				Integer.parseInt(field[1].getText());
 				testa = true;
 			}catch(NumberFormatException nfe){
 				testa = false;

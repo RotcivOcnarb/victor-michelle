@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import login.ListaAcesso;
-import model.Empresa;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +13,8 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 
 public class InterfaceConsultaAcessos extends Interface {
+	private static final long serialVersionUID = 1L;
+	
 		private JCheckBox [] jcb;
 		private ButtonGroup grupo;
 		private String [] checkNome = {
@@ -173,8 +174,9 @@ public class InterfaceConsultaAcessos extends Interface {
 		}
 				DefaultTableModel model = new DefaultTableModel(data, header1);
 		        cad = new JTable(model) {
+					private static final long serialVersionUID = 1L;
 
-		            public boolean isCellEditable(int rowIndex, int columnIndex) {
+					public boolean isCellEditable(int rowIndex, int columnIndex) {
 		             
 		            	return false;
 		              
