@@ -32,18 +32,18 @@ public class Pessoa {
 	
 	
 	
-	public boolean valida(String nome,int perfil,String senha,String cpf,String ema,String emi,String cnpj,boolean acesso){
-		String [] aux  ={Integer.toString(perfil),nome,senha,cpf,ema,emi,String.valueOf(acesso),cnpj};
-		for(int i=0;i<aux.length;i++){
-			if(aux[i] == null || aux[i].equals("")){
-				return false;
-			}
-			
-		}
-
-		
-		return true;
-	}
+//	public boolean valida(String nome,int perfil,String senha,String cpf,String ema,String emi,String cnpj,boolean acesso){
+//		String [] aux  ={Integer.toString(perfil),nome,senha,cpf,ema,emi,String.valueOf(acesso),cnpj};
+//		for(int i=0;i<aux.length;i++){
+//			if(aux[i] == null || aux[i].equals("")){
+//				return false;
+//			}
+//			
+//		}
+//
+//		
+//		return true;
+//	}
 	
 	
 	
@@ -163,9 +163,8 @@ public class Pessoa {
 	}
 	
 	public void setNumero(){
-		PessoaDao ed = new PessoaDao();
-		ed.getNumeroFuncionario();
-		numero = ed.getTotal();
+		PessoaDao dao = new PessoaDao();
+		numero = dao.getNumeroFuncionario();
 	}
 	public int getNumero(){
 		return numero;
@@ -180,16 +179,16 @@ public class Pessoa {
 		System.out.println(perfil+" "+ nome +" "+cpf +" "+senha +" "+entradaMax+" "+ entradaMin);
 	}
 	
-	public boolean cadastraPessoa(String nome,int perfil,String senha,String cpf,String ema,String emi,String cnpj,boolean acesso){
-		//System.out.print("nome :"+nome+"perfil: "+perfil+"senha: "+senha+"cpf: "+cpf+"ema: "+ema+"emi: "+emi+"cnpj: "+cnpj+"acesso: "+acesso);
-		//System.out.println(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso));
-		
-		if(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso)){
-		PessoaDao pd = new PessoaDao(perfil,nome,senha,cpf,ema,emi,acesso,cnpj);
-		return pd.cadastra();
-		}return false;
-	
-	}
+//	public boolean cadastraPessoa(String nome,int perfil,String senha,String cpf,String ema,String emi,String cnpj,boolean acesso){
+//		//System.out.print("nome :"+nome+"perfil: "+perfil+"senha: "+senha+"cpf: "+cpf+"ema: "+ema+"emi: "+emi+"cnpj: "+cnpj+"acesso: "+acesso);
+//		//System.out.println(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso));
+//		
+//		if(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso)){
+//		PessoaDao pd = new PessoaDao(perfil,nome,senha,cpf,ema,emi,acesso,cnpj);
+//		return pd.cadastra();
+//		}return false;
+//	
+//	}
 
 	
 	
@@ -201,10 +200,7 @@ public class Pessoa {
 		while(a){
 		
 			PessoaDao con = new PessoaDao();
-			con.consulta(x);
-			Pessoa cont = new Pessoa(con.getId(),con.getNome(),con.getSenha(),con.getCpf(),
-			con.getPerfil(),con.getEntradaMax(),con.getEntradaMin(),con.getCnpj(),con.isAcesso());
-			;
+			Pessoa cont = con.consulta(x);
 			if(cont.getCpf() !=null ){
 			ar.add(cont);
 			aux++;
@@ -218,33 +214,7 @@ public class Pessoa {
 		}
 	
 	}
-	public boolean altera(int id,String nome,int perfil,String senha,String cpf,String ema,String emi,String cnpj,boolean acesso){
-		
 
-		if(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso) && id!=0){
-			PessoaDao ed = new PessoaDao();
-			ed.altera(id,nome,perfil,senha,cpf,ema,emi,cnpj,acesso);
-			return true;
-			
-			
-		}else{ //JOptionPane.showMessageDialog(null, "mesangem generica de erro");
-		
-		return false;
-	
-		}
-	}
-	
-public boolean exclui(int c){
-		
-		PessoaDao ed = new PessoaDao();
-		try{
-		ed.exclui(c);
-		return true;
-		
-		}catch(Exception e){
-			return false;
-		}
-		}
 	
 
 	
