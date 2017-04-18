@@ -12,7 +12,7 @@ public class Pessoa {
 	private ArrayList<Pessoa> ar = new ArrayList<Pessoa> ();
 	
 	//1 sindico ; 2 atendente ; 3 funcionario ; 0 não entra no sistema ; 4 Administrador
-	//FAZER INTERFACE PRA ESCOLHER EMPRESA ATRAVES DE CHECK BOX
+	//FAZER INTERFACE PRA ESCOLHER EMPRESA ATRAVES DE ~CHECK BOX~ <- usa combobox pf
 	
 	public Pessoa(int id,String nome,String senha,String cpf,int perfil,String ema,String emi,String cnpj,boolean acesso){
 		this.id=id;

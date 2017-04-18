@@ -1,22 +1,33 @@
 package interfacesCadastroConsulta;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import model.Empresa;
 import model.Pessoa;
+import service.EmpresaService;
+import service.PessoaService;
 
 public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 	private static final long serialVersionUID = 1L;
@@ -33,8 +44,8 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 	private int chave;
 	private JLabel passL;
 	private JPasswordField passP;
-	Pessoa pm =new Pessoa();
-	
+	private PessoaService pesService;
+	private EmpresaService emService;
 	
 	public  InterfaceCadastraFuncionario(ResourceBundle a,int perfil,int user){//user 0 para o alterar
 		super(a,perfil,true); 
@@ -48,10 +59,9 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 		espaco = new JLabel[2];
 		espaco[0] = new JLabel();
 		espaco[1] = new JLabel();
-		
 	
-
-		
+		pesService = new PessoaService();	
+		emService = new EmpresaService();
 		
 		for(int i=0;i<label.length;i++){
 			label[i] = new JLabel(labelNome[i]);
@@ -130,8 +140,7 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 		painel = new JPanel();
 		painel.setLayout(new GridLayout(2,1));
 		
-		Empresa em = new Empresa();
-		ar = em.getArray();
+		ar = emService.getListaEmpresas();
 
 		Iterator<Empresa> it =  ar.iterator();
 		//int contadorAux=0;
@@ -279,47 +288,32 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 				String horaMinutoMin = horaMin+":"+minutoMin;//hora mininima entrada
 				String horaMinutoMax = horaMax+":"+minutoMax ;//hora maxima
 					
+				Pessoa pessoa = new Pessoa();
+				pessoa.setId(getIdentificador());
+				pessoa.setNome(field[0].getText());
+				pessoa.setPerfil(perfil);
+				pessoa.setSenha(aux);
+				pessoa.setCpf(field[1].getText());
+				pessoa.setEntradaMin(horaMinutoMin);
+				pessoa.setEntradaMax(horaMinutoMax);
+				pessoa.setAcesso(cb.isSelected());
+				pessoa.setCnpj(jcb.getSelectedItem().toString());
+				
 				//System.out.println("hora minima"+horaMinutoMin );
 				//System.out.println("hora maxima"+ horaMinutoMax);
 				if(user == 0){
-				
-				if(pm.cadastraPessoa(
-							field[0].getText(),
-							perfil,
-							field[1].getText(),
-							aux,
-							horaMinutoMax,
-							horaMinutoMin,
-							String.valueOf(jcb.getSelectedItem()),
-							cb.isSelected()
-							) ){
-				JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.sucesso")+"\nId: "+pm.getLastId()+ "\n"+bn.getString("menu.login.senha") +aux);
-							}else JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.falha"));
-					
-					
-					
-					}else{
-			
-					if(pm.altera(
-							getIdentificador(),
-							field[0].getText(),
-							perfil,
-							new String(passP.getPassword()),
-							field[1].getText(),
-							horaMinutoMax,
-							horaMinutoMin,
-							String.valueOf(jcb.getSelectedItem()),
-							cb.isSelected()
-							)){JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.sucesso"));
-							dispose();
-							new InterfaceConsultaFuncionario(bn,getChave(),perfil);
-							
-							
-							}else JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.falha"));
-				
-					
-					
-					
+					if(pesService.cadastra(pessoa))
+						JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.sucesso")+"\nId: "+pesService.getLastId()+ "\n"+bn.getString("menu.login.senha") +aux);
+					else
+						JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.falha"));
+				}else{
+					if(pesService.altera(pessoa)){
+						JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.sucesso"));
+						dispose();
+						new InterfaceConsultaFuncionario(bn,getChave(),perfil);
+					}
+					else
+						JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.falha"));
 				}
 			}
 
@@ -342,5 +336,6 @@ public class InterfaceCadastraFuncionario extends InterfaceCadastra {
 	
 	
 	}
+
 	
 

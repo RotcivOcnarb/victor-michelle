@@ -9,6 +9,7 @@ import java.awt.*;
 import javax.swing.*;
 import interfacesCadastroConsulta.*;
 import login.CriaLogin;
+import login.LoginGUI;
 import model.Pessoa;
 
 
@@ -173,7 +174,8 @@ public class InterfacePrincipal extends JFrame {
 					if(x == 0){
 						
 						dispose();
-						//new LoginGUI();
+						new LoginGUI();
+						//System.exit(0);
 					}
 					
 					}

@@ -8,18 +8,25 @@ public class PessoaService {
 	PessoaDao dao;
 	
 	public PessoaService(){
-		
+		dao = new PessoaDao();
 	}
 	
 	public boolean cadastra(Pessoa pessoa){
-		//System.out.print("nome :"+nome+"perfil: "+perfil+"senha: "+senha+"cpf: "+cpf+"ema: "+ema+"emi: "+emi+"cnpj: "+cnpj+"acesso: "+acesso);
-		//System.out.println(valida(nome,perfil,senha,cpf,ema,emi,cnpj,acesso));
-		
 		if(valida(pessoa)){
-		PessoaDao pd = new PessoaDao();
-		return pd.cadastra(pessoa);
+		return dao.cadastra(pessoa);
 		}return false;
+	}
 	
+	public boolean exclui(int id){
+		return dao.exclui(id);
+	}
+	
+	public int getLastId(){
+		return dao.getLastId();
+	}
+	
+	public boolean altera(Pessoa pessoa){
+		return dao.altera(pessoa);
 	}
 	
 	public boolean valida(Pessoa pessoa){

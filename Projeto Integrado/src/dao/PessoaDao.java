@@ -10,9 +10,6 @@ import login.CryptoAES;
 import model.Pessoa;
 
 public class PessoaDao {
-//	private int perfil,total,id;
-//	private String nome,cpf,senha,entradaMax,entradaMin,cnpj;
-//	private boolean acesso;
 	private byte[] encrypt;
 	private CryptoAES cr;
 	Connection conn = null;
@@ -79,7 +76,7 @@ public class PessoaDao {
 	
 	
 	public int getLastId(){
-		 String sqlSelect = "SELECT IDENT_CURRENT('pessoa')";
+		 String sqlSelect = "select idPessoa from pessoa order by idPessoa desc limit 1";
 		 PreparedStatement stm = null;
 		 ResultSet rs = null;
 		 try{
@@ -89,7 +86,7 @@ public class PessoaDao {
 			 stm = conn.prepareStatement(sqlSelect);
 			 rs = stm.executeQuery();
 			 if (rs.next()){
-				 return rs.getInt(1);
+				 return rs.getInt("idPessoa");
 			 }
 		 }
 		 catch (Exception e){
@@ -197,7 +194,7 @@ public class PessoaDao {
 	    }
 	    return -1;
 	}
-	public void altera(Pessoa pessoa){
+	public boolean altera(Pessoa pessoa){
 		String sqlUpdate = "update Pessoa set nome=?,perfil=?,cpf=?,senha=?,entradaMax=?,entradaMin=?,acesso=?,EmpresaCnpj=? where idPessoa=?;";
 		PreparedStatement stm = null;
 		cr = new CryptoAES(pessoa.getSenha());
@@ -229,6 +226,7 @@ public class PessoaDao {
 		    stm .executeUpdate();
 		    conn.commit(); // ADDED
 		    stm.close();
+		    return true;
 		}
 		catch (Exception e){
 			e.printStackTrace();
@@ -249,8 +247,9 @@ public class PessoaDao {
 				}
 			}
 		}
+		return false;
 	}	
-	public void exclui(int id){
+	public boolean exclui(int id){
 		 String sqlUpdate = "delete from Pessoa where idPessoa=?;";
 		 PreparedStatement stm = null;
 		 try{
@@ -262,6 +261,7 @@ public class PessoaDao {
 			 stm .executeUpdate();
 			 conn.commit(); // ADDED
 			 stm.close();
+			 return true;
 		 }
 		 catch (Exception e){
 			 e.printStackTrace();
@@ -282,6 +282,7 @@ public class PessoaDao {
 				 }
 			 }
 		 } 
+		 return false;
 	}
 }
 

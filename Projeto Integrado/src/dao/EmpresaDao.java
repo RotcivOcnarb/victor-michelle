@@ -3,97 +3,29 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import model.Empresa;
+
 
 public class EmpresaDao {
-	private String cnpj,razaoSocial,horaAbertura,horaFechamento,temperaturaAr;
-	Connection conn = null;
-	private int numero =0;
-	
-	
-	public EmpresaDao(String a ,String b,String c, String d , String x ){
-		setCnpj(a);
-		setRazaoSocial(b);
-		setHoraAbertura(c);
-		setHoraFechamento(d);
-		setTemperaturaAr(x);		
-	}
-
-
-public EmpresaDao( ){
-	
-}
-
-	public String getCnpj() {
-	return cnpj;
-}
-
-public String getRazaoSocial() {
-	return razaoSocial;
-}
-
-
-public String getHoraAbertura() {
-	return horaAbertura;
-}
-
-
-public String getHoraFechamento() {
-	return horaFechamento;
-}
-
-public String getTemperaturaAr() {
-	return temperaturaAr;
-}
-
-public void setCnpj(String cnpj) {
-	this.cnpj = cnpj;
-}
-
-public void setRazaoSocial(String razaoSocial) {
-	this.razaoSocial = razaoSocial;
-}
-
-public void setHoraAbertura(String horaAbertura) {
-	this.horaAbertura = horaAbertura;
-}
-
-public void setHoraFechamento(String horaFechamento) {
-	this.horaFechamento = horaFechamento;
-}
-
-public void setTemperaturaAr(String temperaturaAr) {
-	this.temperaturaAr = temperaturaAr;
-}
-public void setNumero(int x){
-	numero = x;
-}
-public int getNumero(){
-	return numero;
-}
-
-
-
-
-	public void cadastra()
+	public boolean cadastra(Empresa empresa)
 	 {
+		Connection conn = AcessoBD.obtemConexao();
 		
 	    String sqlInsert = "insert into Empresa(cnpj,razaoSocial,horaAbertura,horaFechamento,temperaturaAr) values(?,?,?,?,?);";
 	    PreparedStatement stm = null;
 	    try
 	    {
-	    	AcessoBD bd = new AcessoBD();
-		    conn = bd.obtemConexao();
-		    conn.setAutoCommit(false);
+	    	conn.setAutoCommit(false);
 	       stm = conn.prepareStatement(sqlInsert);
-	       stm.setString(1, getCnpj());
-	       stm.setString(2, getRazaoSocial());
-	       stm.setString(3, getHoraAbertura());
-	       stm.setString(4, getHoraFechamento());
-	       stm.setString(5, getTemperaturaAr());
+	       stm.setString(1, empresa.getCnpj());
+	       stm.setString(2, empresa.getRazaoSocial());
+	       stm.setString(3, empresa.getHoraAbertura());
+	       stm.setString(4, empresa.getHoraFechamento());
+	       stm.setString(5, empresa.getTemperaturaAr());
 	   
 	       //System.out.println(stm);
 	       stm .execute();
@@ -101,6 +33,7 @@ public int getNumero(){
 	       conn.commit(); // ADDED
 	       
 	       stm.close();
+	       return true;
 	       
 	    }
 	    catch (Exception e)
@@ -129,24 +62,22 @@ public int getNumero(){
 	          }
 	       }
 	    }
-	    
+	    return false;
 	 }
-	 public void getNumeroEmpresa(){
+	 public int getNumeroEmpresa(){
 		 
-		 
+		 Connection conn = AcessoBD.obtemConexao();
 		    String sqlSelect = "select COUNT(*) from Empresa;";
 		    PreparedStatement stm = null;
 		    ResultSet rs = null;
 		    try
 		    {
-		    	 AcessoBD bd = new AcessoBD();
-		         conn = bd.obtemConexao();
 		         conn.setAutoCommit(false);
 		       stm = conn.prepareStatement(sqlSelect);
 		       rs = stm.executeQuery();
 		       if (rs.next())
 		       {
-		         setNumero(rs.getInt(1));
+		         return rs.getInt(1);
 		         
 		       }
 		    }
@@ -177,34 +108,93 @@ public int getNumero(){
 		       }
 		    }
 		 
-		 
+		 return -1;
 	 }
 
-	 public void consulta(int id)
+
+	 
+	 public ArrayList<Empresa> getListaEmpresas(){
+		 Connection conn = AcessoBD.obtemConexao();
+		    String sqlSelect = "SELECT * FROM Empresa";
+		    PreparedStatement stm = null;
+		    ResultSet rs = null;
+		    
+		    try
+		    {
+		        conn.setAutoCommit(false);
+		       stm = conn.prepareStatement(sqlSelect);
+		       rs = stm.executeQuery();
+		       
+		       ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+		       
+		       while (rs.next())
+		       {
+		    	   Empresa empresa = new Empresa();
+		    	   empresa.setCnpj(rs.getString(2)); 
+		    	   empresa.setRazaoSocial(rs.getString(3));
+		    	   empresa.setHoraAbertura(rs.getString(4));
+		    	   empresa.setHoraFechamento(rs.getString(5));
+		    	   empresa.setTemperaturaAr(rs.getString(6));
+		    	   
+		    	   empresas.add(empresa);
+		       }
+		       
+		       return empresas;
+		    }
+		    catch (Exception e)
+		    {
+		       e.printStackTrace();
+		       try
+		       {
+		          conn.rollback();
+		       }
+		       catch (SQLException e1)
+		       {
+		          System.out.print(e1.getStackTrace());
+		       }
+		    }
+		    finally
+		    {
+		       if (stm != null)
+		       {
+		          try
+		          {
+		             stm.close();
+		          }
+		          catch (SQLException e1)
+		          {
+		             System.out.print(e1.getStackTrace());
+		          }
+		       }
+		    }
+		    return null;
+	 }
+	 
+	 public Empresa consulta(int id)
 	 {
+		 Connection conn = AcessoBD.obtemConexao();
 	    String sqlSelect = "SELECT * FROM Empresa where idEmpresa = ?";
 	    PreparedStatement stm = null;
 	    ResultSet rs = null;
 	    try
 	    {
-	    	 AcessoBD bd = new AcessoBD();
-	         conn = bd.obtemConexao();
 	         conn.setAutoCommit(false);
 	       stm = conn.prepareStatement(sqlSelect);
 	       stm.setInt(1, id);
 	       rs = stm.executeQuery();
+	       
+	       Empresa empresa = new Empresa();
+	       
 	       if (rs.next())
 	       {
-	    	setCnpj(rs.getString(2)); 
-	    	setRazaoSocial(rs.getString(3));
-	    	setHoraAbertura(rs.getString(4));
-	    	setHoraFechamento(rs.getString(5));
-	    	setTemperaturaAr(rs.getString(6));
-	    	
-	    
-	    
-
+	    	   empresa.setCnpj(rs.getString(2)); 
+	    	   empresa.setRazaoSocial(rs.getString(3));
+	    	   empresa.setHoraAbertura(rs.getString(4));
+	    	   empresa.setHoraFechamento(rs.getString(5));
+	    	   empresa.setTemperaturaAr(rs.getString(6));
 	       }
+	       
+	       return empresa;
 	    }
 	    catch (Exception e)
 	    {
@@ -232,31 +222,32 @@ public int getNumero(){
 	          }
 	       }
 	    }
+	    return null;
 	 }
 	 
-	 public void altera(){
+	 public boolean altera(Empresa empresa){
+		 Connection conn = AcessoBD.obtemConexao();
 			 String sqlUpdate = "UPDATE Empresa SET razaoSocial= ?,horaAbertura=? ,horaFechamento=? ,temperaturaAr=? where cnpj=?;";
 			 PreparedStatement stm = null;
 			    try
 			    {
-			    	AcessoBD bd = new AcessoBD();
-			        conn = bd.obtemConexao();
+
 			        conn.setAutoCommit(false);
 			       stm = conn.prepareStatement(sqlUpdate);
 			      
 			       
-			       stm.setString(1, getRazaoSocial());
-			       stm.setString(2, getHoraAbertura());
-			       stm.setString(3, getHoraFechamento());
-			       stm.setString(4, getTemperaturaAr());
-			       stm.setString(5, getCnpj());
+			       stm.setString(1, empresa.getRazaoSocial());
+			       stm.setString(2, empresa.getHoraAbertura());
+			       stm.setString(3, empresa.getHoraFechamento());
+			       stm.setString(4, empresa.getTemperaturaAr());
+			       stm.setString(5, empresa.getCnpj());
 			       //System.out.println(stm);
 			       stm .executeUpdate();
 
 			       conn.commit(); // ADDED
 			       
 			       stm.close();
-			       
+			       return true;
 			    }
 			    catch (Exception e)
 			    {
@@ -284,22 +275,21 @@ public int getNumero(){
 			          }
 			       }
 			    }
-			    
+			    return false;
 			 }
 			
 		 
-	 public void exclui(String a){
+	 public boolean exclui(String cnpj){
+		 Connection conn = AcessoBD.obtemConexao();
 		 String sqlUpdate = "delete from Empresa where cnpj=?;";
 		 PreparedStatement stm = null;
 		    try
 		    {
-		    	AcessoBD bd = new AcessoBD();
-		        conn = bd.obtemConexao();
 		        conn.setAutoCommit(false);
 		       stm = conn.prepareStatement(sqlUpdate);
 		      
 		       
-		       stm.setString(1,a);
+		       stm.setString(1,cnpj);
 		       
 		       //System.out.println(stm);
 		       stm .executeUpdate();
@@ -307,6 +297,7 @@ public int getNumero(){
 		       conn.commit(); // ADDED
 		       
 		       stm.close();
+		       return true;
 		       
 		    }
 		    catch (Exception e)
@@ -335,10 +326,7 @@ public int getNumero(){
 		          }
 		       }
 		    }
-		 
-		 
-		 
-		 
+		 return false;
 	 }
 	 
 	 

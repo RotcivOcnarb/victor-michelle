@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import model.Empresa;
 import model.ListaConjunto;
+import service.EmpresaService;
 import sistema.InterfacePrincipal;
 
 
@@ -24,6 +25,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 		protected JPanel jp;
 		private int perfil;
 		private ResourceBundle a; 
+		private EmpresaService emService;
 		
 	public InterfaceCadastraEmpresa(ResourceBundle a,int perfil){
 		super(a,perfil);
@@ -31,6 +33,8 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 		this.perfil = perfil;
 		
 		jp = new JPanel();
+		
+		emService = new EmpresaService();
 	
 		String conjunto = bn.getString("menu.cadastro.empresaC")+" ";
 		jp.setLayout(new GridLayout(4,3));
@@ -127,13 +131,13 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 			
 			
 			//cria objeto empresa e o salva no bd
-				Empresa em = new Empresa(field[0].getText(),
+				Empresa empresa = new Empresa(field[0].getText(),
 						field[1].getText(),
 						field[2].getText(),
 						field[3].getText(),
 						field[4].getText());
 				
-				if(em.cadastra()){
+				if(emService.cadastra(empresa)){
 					for(int i =0;i<jcb.length;i++){
 						if(jcb[i].isSelected()){
 							lc.updateConjunto(field[0].getText(), i+1);

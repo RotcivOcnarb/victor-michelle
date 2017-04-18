@@ -1,11 +1,22 @@
 package interfacesCadastroConsulta;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
-import java.awt.*;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import model.Empresa;
 import model.Pessoa;
+import service.PessoaService;
 
 
 public class InterfaceConsulta extends Interface {
@@ -15,7 +26,7 @@ public class InterfaceConsulta extends Interface {
 	private int chave;
 	protected JTable cad;
 	protected JScrollPane scrollPane;
-	
+	private PessoaService pesService;
 
 	
 	protected InterfaceConsulta(ResourceBundle a,int chave,int perfil){
@@ -25,7 +36,7 @@ public class InterfaceConsulta extends Interface {
 		 c.setLayout(new BorderLayout());
 		setTitle(bn.getString("menu.menu.empresa"));
 		
-  
+		pesService = new PessoaService();
       
         JPanel jp = new JPanel();
         jp.setLayout(new FlowLayout());
@@ -127,21 +138,9 @@ public class InterfaceConsulta extends Interface {
 						}catch(Exception a){
 							JOptionPane.showMessageDialog(null,"id invalido");
 						}
-						
-						
-						
-						//JOptionPane.showMessageDialog(null,jp);
-						
-						
-						
-						
-						
-						
-						
-						
+
 					}
-					
-					
+
 				}
 				if(e.getSource() == jb[1]){
 					if(chave == 0){
@@ -157,20 +156,10 @@ public class InterfaceConsulta extends Interface {
 							dispose();
 						}
 						else JOptionPane.showMessageDialog(null,"Mensagem generica fracasso");
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
+
 					}else{
 						int id = Integer.parseInt(JOptionPane.showInputDialog(null,bn.getString("menu.excluir.funcionario")));
-						Pessoa pm = new Pessoa();
-						if(pm.exclui(id)){ 
+						if(pesService.exclui(id)){ 
 							JOptionPane.showMessageDialog(null,"Mensagem generica de sucesso");
 							new InterfaceConsultaFuncionario(bn,chave,perfil);
 							dispose();

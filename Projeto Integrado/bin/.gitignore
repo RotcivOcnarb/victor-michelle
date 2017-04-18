@@ -1,6 +1,7 @@
-/interfacesCadastroConsulta/
-/model/
 /dao/
+/interfacesCadastroConsulta/
+/login/
+/model/
 /service/
 /sistema/
 /test/
