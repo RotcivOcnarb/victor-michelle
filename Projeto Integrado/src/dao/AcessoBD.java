@@ -6,6 +6,8 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 /**
 * Classe responsável pela conexão com banco de dados MySQL
 */
@@ -15,6 +17,7 @@ public class AcessoBD
  // -----------------------------------------------------------
  // Carrega driver JDBC
  //
+	
  static
  {
     try
@@ -27,18 +30,25 @@ public class AcessoBD
     }
  }
  
+ static Connection conn;
+ 
  // -----------------------------------------------------------
  // Obtém conexão com o banco de dados
  public static Connection obtemConexao()
  {
-	 try{
-	 Connection conn = DriverManager.getConnection(
-             "jdbc:mysql://localhost/empresa?user=alunos&password=alunos" ) ;
-	 return conn;
+	 if(conn == null){
+		 try{
+		 conn = DriverManager.getConnection(
+	             "jdbc:mysql://localhost/empresa?user=alunos&password=alunos" ) ;
+		 }
+		 catch(SQLException e){
+			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 e.printStackTrace();
+			 return null;
+		 }
 	 }
-	 catch(SQLException e){
-		 e.printStackTrace();
-		 return null;
-	 }
+
+	return conn;
+	 
  }
 }

@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import model.Empresa;
-import model.Pessoa;
+import service.EmpresaService;
 import service.PessoaService;
 
 
@@ -27,7 +27,7 @@ public class InterfaceConsulta extends Interface {
 	protected JTable cad;
 	protected JScrollPane scrollPane;
 	private PessoaService pesService;
-
+	private EmpresaService emService;
 	
 	protected InterfaceConsulta(ResourceBundle a,int chave,int perfil){
 		super(a,perfil);
@@ -37,7 +37,8 @@ public class InterfaceConsulta extends Interface {
 		setTitle(bn.getString("menu.menu.empresa"));
 		
 		pesService = new PessoaService();
-      
+		emService = new EmpresaService();
+		
         JPanel jp = new JPanel();
         jp.setLayout(new FlowLayout());
 		
@@ -118,7 +119,7 @@ public class InterfaceConsulta extends Interface {
 								field[3].getText()
 								);
 						
-						if(em.altera()){ 
+						if(emService.altera(em)){ 
 							JOptionPane.showMessageDialog(null,"Mensagem generica de sucesso");
 							new InterfaceConsultaEmpresa(bn,chave,perfil);
 							dispose();
@@ -146,11 +147,8 @@ public class InterfaceConsulta extends Interface {
 					if(chave == 0){
 						String cn =JOptionPane.showInputDialog(null,bn.getString("menu.excluir.empresa"));
 						//istancia tela de exclusao de empresa
-						
-						Empresa em = new Empresa();
-						
-						
-						if(em.exclui(cn)){ 
+
+						if(emService.exclui(cn)){ 
 							JOptionPane.showMessageDialog(null,"Mensagem generica de sucesso");
 							new InterfaceConsultaEmpresa(bn,chave,perfil);
 							dispose();

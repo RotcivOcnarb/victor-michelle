@@ -9,12 +9,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.Empresa;
+import service.EmpresaService;
 
 
 public class InterfaceConsultaEmpresa extends InterfaceConsulta {
 	private static final long serialVersionUID = 1L;
 	String[][] data;
 	ArrayList<Empresa> ar;
+	EmpresaService service;
 	String [] header1 = { bn.getString("menu.cadastro.cnpj"),bn.getString("menu.cadastro.razao"),
 			bn.getString("menu.cadastro.horarioAbrirEmpresa"),
 			bn.getString("menu.cadastro.horarioFecharEmpresa"),
@@ -25,7 +27,7 @@ public class InterfaceConsultaEmpresa extends InterfaceConsulta {
 		super(a,chave,perfil);
 				setTabela();
 				inter();
-				
+		service = new EmpresaService();
 			
 		
 	}
@@ -45,15 +47,9 @@ public class InterfaceConsultaEmpresa extends InterfaceConsulta {
 			repaint();
 	}
 	public void setTabela(){
-		Empresa em = new Empresa();
-		int linhas = em.getNumero();
-		ar = em.getArray();
+		ar = service.getListaEmpresas();
 		
-		
-		data = new String[linhas][header1.length];
-	
-		
-	
+		data = new String[ar.size()][header1.length];
 
 		for(int i=0;i<header1.length;i++){
 			Iterator<Empresa> it =  ar.iterator();

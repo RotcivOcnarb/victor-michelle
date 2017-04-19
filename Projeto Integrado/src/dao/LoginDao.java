@@ -62,9 +62,7 @@ public class LoginDao {
 	    try
 	    {
 	    	
-	    	
-	    	 AcessoBD bd = new AcessoBD();
-	         conn = bd.obtemConexao();
+	         conn = AcessoBD.obtemConexao();
 	         conn.setAutoCommit(false);
 	       stm = conn.prepareStatement(sqlSelect);
 	       stm.setInt(1, id);
