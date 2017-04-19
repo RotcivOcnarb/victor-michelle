@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import dao.ConjuntoDao;
 import dao.EmpresaDao;
+import model.Conjunto;
 import model.Empresa;
 
 public class EmpresaService {
@@ -44,9 +44,12 @@ public class EmpresaService {
 	
 	public boolean exclui(String c){
 		
-		ConjuntoDao cd = new ConjuntoDao();
+		ConjuntoService cs = new ConjuntoService();
 		try{
-		cd.alteraConjunto(c);
+		for(Conjunto conj : cs.ConjuntoByCnpj(c)){
+			conj.setOcupado(false);
+			cs.alteraConjunto(conj);
+		}
 		dao.exclui(c);
 		return true;
 		

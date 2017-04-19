@@ -2,13 +2,19 @@ package interfacesCadastroConsulta;
 
 
 import java.awt.GridLayout;
-import java.awt.event.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javax.swing.*;
 
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import model.Conjunto;
 import model.Empresa;
-import model.ListaConjunto;
+import service.ConjuntoService;
 import service.EmpresaService;
 import sistema.InterfacePrincipal;
 
@@ -17,20 +23,26 @@ import sistema.InterfacePrincipal;
 
 public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 	private static final long serialVersionUID = 1L;
-		ListaConjunto lc = new ListaConjunto();
-		boolean [] aux = lc.getIdsLivres();
-		String [] conjuntos = new String[lc.getNumero()];
-		private JCheckBox [] jcb = new JCheckBox[lc.getNumero()];
-		private JLabel [] jl = new JLabel[lc.getNumero()];
+		private JCheckBox [] jcb;
+		private JLabel [] jl;
 		protected JPanel jp;
 		private int perfil;
 		private ResourceBundle a; 
 		private EmpresaService emService;
+		private ConjuntoService conjService;
 		
+		ArrayList<Conjunto> conjuntos;
 	public InterfaceCadastraEmpresa(ResourceBundle a,int perfil){
 		super(a,perfil);
 		this.a = a;
 		this.perfil = perfil;
+		
+		conjService = new ConjuntoService();
+
+		conjuntos = conjService.getListaConjunto();
+		
+		jcb = new JCheckBox[conjuntos.size()];
+		jl = new JLabel[conjuntos.size()];
 		
 		jp = new JPanel();
 		
@@ -38,11 +50,11 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 	
 		String conjunto = bn.getString("menu.cadastro.empresaC")+" ";
 		jp.setLayout(new GridLayout(4,3));
-		if(libera()){
-		for(int i=0;i<conjuntos.length;i++){
+		if(conjunto != "a"){
+		for(int i=0;i<conjuntos.size();i++){
 			
 			//System.out.print(aux[i]+" ");
-			if(!aux[i]){
+			if(!conjuntos.get(i).isOcupado()){
 			jl[i] = new JLabel(conjunto +(i+1));
 			jp.add(jl[i]);
 			jcb[i] = new JCheckBox();
@@ -80,7 +92,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 		super.inter();
 		String conjunto = bn.getString("menu.cadastro.empresaC")+" ";
 	
-		for(int i=0;i<conjuntos.length;i++){
+		for(int i=0;i<conjuntos.size();i++){
 		
 			jl[i].setText(conjunto +(i+1));
 		}
@@ -100,15 +112,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 		}
 		
 	}
-	public boolean libera(){
-		if(lc.getNumeroVazios()==0)
-			return false;
-		
-		return true;
-		
-	}
-	
-	
+
 	private class Teste implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == save){
@@ -140,7 +144,8 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 				if(emService.cadastra(empresa)){
 					for(int i =0;i<jcb.length;i++){
 						if(jcb[i].isSelected()){
-							lc.updateConjunto(field[0].getText(), i+1);
+							Conjunto conj = new Conjunto(i, true, field[0].getText());
+							conjService.alteraConjunto(conj);
 						}
 					}
 				}
