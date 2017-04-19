@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.ControleAr;
+import service.ControleArService;
 
 public class InterfaceConsultaAr extends Interface{
 	private static final long serialVersionUID = 1L;
@@ -28,14 +29,12 @@ public class InterfaceConsultaAr extends Interface{
 	private JTable cad;
 	private Container c;
 	private JScrollPane scrollPane;
-	
-	
-	
+	private ControleArService conArService;
 	
 	public InterfaceConsultaAr(ResourceBundle a,int perfil){
 		super(a,perfil);
 		
-		
+		conArService = new ControleArService();
 		
 		c = new Container();
 		
@@ -43,34 +42,22 @@ public class InterfaceConsultaAr extends Interface{
 		
 		c.setLayout(new BorderLayout());
 		
+		conArService.registraTemperaturas();		
+		temperaturaAtual = conArService.getTemperaturaAtual();
 		
-		
-		ControleAr la = new ControleAr();
-		la.registraTemperaturas();		
-		la.getConsulta();
-		aa = la.getAa();
-		temperaturaAtual = la.getTemperaturaAtual();
-		
-		setTabela(aa);
-
-		
+		setTabela(conArService.getLista());
 
 		setSize(850,300);
 		setResizable(false);
 		inter();
 		
 	}
-public void setTabela(ArrayList<ControleAr> aa){
-		
-		 
-		
-		data = new String[aa.size()][header1.length];
-		
-		
-		
+public void setTabela(ArrayList<ControleAr> lista){
+
+		data = new String[lista.size()][header1.length];
 
 		for(int i=0;i<header1.length;i++){
-			Iterator<ControleAr> it =  aa.iterator();
+			Iterator<ControleAr> it =  lista.iterator();
 			int j=0;
 				while(it.hasNext()){
 				ControleAr c = it.next();
