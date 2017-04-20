@@ -14,7 +14,7 @@ public class ConjuntoDao {
 	 public Conjunto consulta(int id)
 	 {
 		Connection conn = AcessoBD.obtemConexao();
-	    String sqlSelect = "SELECT ocupado FROM Conjunto WHERE idConjunto = ?";
+	    String sqlSelect = "SELECT * FROM conjunto WHERE idConjunto = ?";
 	    PreparedStatement stm = null;
 	    ResultSet rs = null;
 	    try
@@ -28,7 +28,7 @@ public class ConjuntoDao {
 	       rs = stm.executeQuery();
 	       if (rs.next())
 	       {
-	    	  Conjunto conj = new Conjunto(rs.getInt("idConjunto"), rs.getBoolean("ocupado"), rs.getString("EmpresaCnpj"));
+	    	  Conjunto conj = new Conjunto(rs.getInt("idConjunto"), rs.getInt("ocupado"), rs.getString("EmpresaCnpj"));
 	    	  return conj;
 	       }
 	    }
@@ -69,7 +69,7 @@ public class ConjuntoDao {
 		    {
 			       conn.setAutoCommit(false);
 		       stm = conn.prepareStatement(sqlUpdate);
-		       stm.setString(1, Boolean.toString(conj.isOcupado()));
+		       stm.setInt(1, conj.isOcupado());
 		       stm.setString(2, conj.getCnpj());
 		       stm.setInt(3, conj.getId());
 		       
@@ -128,7 +128,7 @@ public class ConjuntoDao {
 		       ArrayList<Conjunto> conjuntos = new ArrayList<Conjunto>();
 		       while (rs.next())
 		       {
-		    	  Conjunto conj = new Conjunto(rs.getInt("idConjunto"), rs.getBoolean("ocupado"), rs.getString("EmpresaCnpj"));
+		    	  Conjunto conj = new Conjunto(rs.getInt("idConjunto"), rs.getInt("ocupado"), rs.getString("EmpresaCnpj"));
 		    	  conjuntos.add(conj);
 		       }
 		       return conjuntos;
@@ -162,5 +162,5 @@ public class ConjuntoDao {
 		 return null;
 		 
 	 }
-	
+
 }

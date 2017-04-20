@@ -50,21 +50,14 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 	
 		String conjunto = bn.getString("menu.cadastro.empresaC")+" ";
 		jp.setLayout(new GridLayout(4,3));
-		if(conjunto != "a"){
-		for(int i=0;i<conjuntos.size();i++){
-			
-			//System.out.print(aux[i]+" ");
-			if(!conjuntos.get(i).isOcupado()){
-			jl[i] = new JLabel(conjunto +(i+1));
-			jp.add(jl[i]);
-			jcb[i] = new JCheckBox();
-			jp.add(jcb[i]);
-			}else{
-				jl[i] = new JLabel(conjunto +(i+1));
-				jp.add(jl[i]);
-				jcb[i] = new JCheckBox();
-				jp.add(jcb[i]);
-				jcb[i].setEnabled(false);
+		for(int i=1; i <= conjuntos.size(); i++){
+
+			jl[i-1] = new JLabel(conjunto + i);
+			jp.add(jl[i-1]);
+			jcb[i-1] = new JCheckBox();
+			jp.add(jcb[i-1]);
+			if(conjService.getByID(i).isOcupado() == 1){
+				jcb[i-1].setEnabled(false);
 			}
 		}
 		
@@ -78,11 +71,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 		save.addActionListener(te);
 		cancel.addActionListener(te);
 		
-		}else {
-			JOptionPane.showMessageDialog(null, "nenhum conjunto disponivel");
-			new InterfacePrincipal(a,perfil);
-			dispose();
-		}
+
 		setSize(800,200);
 		inter();
 		validate();
@@ -116,24 +105,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 	private class Teste implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == save){
-			
-			boolean testa = false;
-			
-			try{
-				Integer.parseInt(field[1].getText());
-				testa = true;
-			}catch(NumberFormatException nfe){
-				testa = false;
-			}
-			
-			
-	
-		
-		
-		if(testa){
-			
-			
-			
+
 			//cria objeto empresa e o salva no bd
 				Empresa empresa = new Empresa(field[0].getText(),
 						field[1].getText(),
@@ -142,12 +114,15 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 						field[4].getText());
 				
 				if(emService.cadastra(empresa)){
-					for(int i =0;i<jcb.length;i++){
-						if(jcb[i].isSelected()){
-							Conjunto conj = new Conjunto(i, true, field[0].getText());
+					for(int i = 1; i <= jcb.length;i++){
+						if(jcb[i-1].isSelected()){
+							Conjunto conj = new Conjunto(i, 1, field[0].getText());
 							conjService.alteraConjunto(conj);
 						}
 					}
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "ERO");
 				}
 		
 					new InterfaceCadastraEmpresa(a,perfil);
@@ -159,10 +134,7 @@ public class InterfaceCadastraEmpresa extends InterfaceCadastra{
 				//JOptionPane.showMessageDialog(null,bn.getString("menu.cadastro.salvo"));
 				//}
 				//}else JOptionPane.showMessageDialog(null,w);
-			
-			}
-			
-			
+
 			
 			
 			

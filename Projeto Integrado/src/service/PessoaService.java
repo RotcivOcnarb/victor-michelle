@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+
 import dao.PessoaDao;
 import model.Pessoa;
 
@@ -41,6 +43,10 @@ public class PessoaService {
 	
 	return true;
 }
+
+	public ArrayList<Pessoa> getLista() {
+		return dao.getLista();
+	}
 
 
 }

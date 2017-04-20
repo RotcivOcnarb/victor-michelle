@@ -36,17 +36,16 @@ public class AcessoBD
  // Obtém conexão com o banco de dados
  public static Connection obtemConexao()
  {
-	 if(conn == null){
 		 try{
 		 conn = DriverManager.getConnection(
-	             "jdbc:mysql://localhost/empresa?user=alunos&password=alunos" ) ;
+	             "jdbc:mysql://localhost:3306/empresa?user=Alunos&password=alunos" ) ;
 		 }
 		 catch(SQLException e){
-			 JOptionPane.showMessageDialog(null, e.getMessage());
+			 JOptionPane.showMessageDialog(null, "Erro ao fazer conexão: "+e.getMessage());
 			 e.printStackTrace();
 			 return null;
 		 }
-	 }
+	 
 
 	return conn;
 	 

@@ -16,12 +16,14 @@ public class EmpresaService {
 		dao = new EmpresaDao();
 	}
 	
-	public boolean cadastra(Empresa empresa){
+	public boolean cadastra(Empresa empresa) throws RuntimeException{
 		if(empresa.getCnpj().length() == 14 && empresa.getRazaoSocial().length() >0 && empresa.getHoraAbertura().length() == 5 &&
 				empresa.getHoraFechamento().length() == 5 && empresa.getTemperaturaAr().length() == 2){
 			return dao.cadastra(empresa);
 		}
-		return false;
+		else{
+			throw new RuntimeException("ERRO DE VALIDAÇAO");
+		}
 	}
 	
 	public ArrayList<Empresa> getListaEmpresas(){
@@ -47,7 +49,7 @@ public class EmpresaService {
 		ConjuntoService cs = new ConjuntoService();
 		try{
 		for(Conjunto conj : cs.ConjuntoByCnpj(c)){
-			conj.setOcupado(false);
+			conj.setOcupado(0);
 			cs.alteraConjunto(conj);
 		}
 		dao.exclui(c);

@@ -32,6 +32,7 @@ public class CriaLogin {
 		//String x = Arrays.toString(lg.getEncrypt());
 		//System.out.println(encrypt);
 	
+		System.out.println("" + lg.getPerfil() + " - " + lg.getId() + " - " + lg.getSenha() + " - " + lg.getHemi() + " - " + lg.getHem() + " - " + lg.isAcesso());
 		output.format("%s %s %s %s %s %s ",lg.getPerfil(),lg.getId(),lg.getSenha(),lg.getHemi(),lg.getHem(),lg.isAcesso());
 		    
 		

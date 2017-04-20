@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 
 import login.CryptoAES;
 import model.Pessoa;
@@ -33,8 +33,7 @@ public class PessoaDao {
 	    PreparedStatement stm = null;
 
 	    try{
-	    	AcessoBD bd = new AcessoBD();
-		    conn = bd.obtemConexao();
+		    conn = AcessoBD.obtemConexao();
 		    conn.setAutoCommit(false);
 		    stm = conn.prepareStatement(sqlInsert);
 		    stm.setString(1, pessoa.getNome());
@@ -80,8 +79,7 @@ public class PessoaDao {
 		 PreparedStatement stm = null;
 		 ResultSet rs = null;
 		 try{
-			 AcessoBD bd = new AcessoBD();
-			 conn = bd.obtemConexao();
+			 conn = AcessoBD.obtemConexao();
 			 conn.setAutoCommit(false);
 			 stm = conn.prepareStatement(sqlSelect);
 			 rs = stm.executeQuery();
@@ -116,8 +114,7 @@ public class PessoaDao {
 		PreparedStatement stm = null;
 		ResultSet rs = null;
 		try{
-			AcessoBD bd = new AcessoBD();
-	        conn = bd.obtemConexao();
+	        conn = AcessoBD.obtemConexao();
 	        conn.setAutoCommit(false);
 	        stm = conn.prepareStatement(sqlSelect);
 	        stm.setInt(1, id);
@@ -164,8 +161,7 @@ public class PessoaDao {
 	    PreparedStatement stm = null;
 	    ResultSet rs = null;
 	    try{
-	    	AcessoBD bd = new AcessoBD();
-	    	conn = bd.obtemConexao();
+			 conn = AcessoBD.obtemConexao();
 	    	conn.setAutoCommit(false);
 	    	stm = conn.prepareStatement(sqlSelect);
 	    	rs = stm.executeQuery();
@@ -209,8 +205,7 @@ public class PessoaDao {
 			e.printStackTrace();
 		}
 		try{
-		    AcessoBD bd = new AcessoBD();
-		    conn = bd.obtemConexao();
+			 conn = AcessoBD.obtemConexao();
 		    conn.setAutoCommit(false);
 		    stm = conn.prepareStatement(sqlUpdate);
 	
@@ -253,8 +248,7 @@ public class PessoaDao {
 		 String sqlUpdate = "delete from Pessoa where idPessoa=?;";
 		 PreparedStatement stm = null;
 		 try{
-			 AcessoBD bd = new AcessoBD();
-			 conn = bd.obtemConexao();
+			 conn = AcessoBD.obtemConexao();
 			 conn.setAutoCommit(false);
 			 stm = conn.prepareStatement(sqlUpdate);
 			 stm.setInt(1, id);
@@ -283,6 +277,59 @@ public class PessoaDao {
 			 }
 		 } 
 		 return false;
+	}
+
+
+	public ArrayList<Pessoa> getLista() {
+		String sqlSelect = "SELECT * FROM Pessoa";
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+		try{
+	        conn = AcessoBD.obtemConexao();
+	        conn.setAutoCommit(false);
+	        stm = conn.prepareStatement(sqlSelect);
+	        rs = stm.executeQuery();
+	        
+	        ArrayList<Pessoa> lista = new ArrayList<Pessoa>();
+	        
+	        while (rs.next()){
+	        	Pessoa pessoa = new Pessoa();
+	    	  
+	        	pessoa.setId(rs.getInt(1));
+	        	pessoa.setNome(rs.getString(2));
+	        	pessoa.setPerfil(rs.getInt(3));
+	        	pessoa.setCpf(rs.getString(4));
+	        	pessoa.setSenha(rs.getString(5));
+	        	pessoa.setEntradaMax(rs.getString(6));
+	        	pessoa.setEntradaMin(rs.getString(7));
+	        	pessoa.setAcesso(rs.getBoolean(8));
+	        	pessoa.setCnpj(rs.getString(9));
+	        	
+	        	lista.add(pessoa);
+	        }
+	        
+	        return lista;
+	   }
+	   catch (Exception e){
+		   e.printStackTrace();
+		   try{
+			   conn.rollback();
+		   }
+		   catch (SQLException e1){
+			   System.out.print(e1.getStackTrace());
+		   }
+	   }
+	   finally{
+		   if (stm != null){
+			   try{
+				   stm.close();
+			   }
+			   catch (SQLException e1){
+				   System.out.print(e1.getStackTrace());
+			   }
+		   }
+	   }
+	return null;
 	}
 }
 

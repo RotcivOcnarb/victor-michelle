@@ -25,9 +25,10 @@ public class InterfaceConsultaEmpresa extends InterfaceConsulta {
 	
 	public InterfaceConsultaEmpresa(ResourceBundle a,int chave,int perfil){
 		super(a,chave,perfil);
+		service = new EmpresaService();
 				setTabela();
 				inter();
-		service = new EmpresaService();
+		
 			
 		
 	}
@@ -47,6 +48,7 @@ public class InterfaceConsultaEmpresa extends InterfaceConsulta {
 			repaint();
 	}
 	public void setTabela(){
+		System.out.println(service);
 		ar = service.getListaEmpresas();
 		
 		data = new String[ar.size()][header1.length];

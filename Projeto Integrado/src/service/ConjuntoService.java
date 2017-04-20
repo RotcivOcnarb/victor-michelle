@@ -31,4 +31,8 @@ public class ConjuntoService {
 		return lista;
 	}
 
+	public Conjunto getByID(int id) {
+		return dao.consulta(id);
+	}
+
 }

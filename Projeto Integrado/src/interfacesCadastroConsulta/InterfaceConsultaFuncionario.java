@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.Pessoa;
+import service.PessoaService;
 
 
 public class InterfaceConsultaFuncionario extends InterfaceConsulta {
@@ -25,12 +26,16 @@ public class InterfaceConsultaFuncionario extends InterfaceConsulta {
 		bn.getString("menu.cadastro.cnpj")
 };
 	
+	PessoaService pesService;
+	
 	
 	
 	public InterfaceConsultaFuncionario(ResourceBundle a,int chave,int perfil){
 		super(a,chave,perfil);
 		setTabela();
 		inter();
+		
+		pesService = new PessoaService();
 		
 	}
 	
@@ -63,17 +68,11 @@ public class InterfaceConsultaFuncionario extends InterfaceConsulta {
 	
 
 public void setTabela(){
-	Pessoa em = new Pessoa();
-	em.setNumero();
-	em.consulta();
-	int linhas = em.getNumero();
-	ar = em.getAr();
 	
+	ar = pesService.getLista();
+	int linhas = ar.size();
 	
 	data = new String[linhas][header1.length];
-
-	
-
 
 	for(int i=0;i<header1.length;i++){
 		Iterator<Pessoa> it =  ar.iterator();

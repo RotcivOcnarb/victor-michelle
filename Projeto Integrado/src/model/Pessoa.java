@@ -8,9 +8,7 @@ import dao.PessoaDao;
 public class Pessoa {
 	private int perfil,numero,id;
 	private String nome,cpf,senha,entradaMax,entradaMin,cnpj;
-	private boolean acesso;
-	private ArrayList<Pessoa> ar = new ArrayList<Pessoa> ();
-	
+	private boolean acesso;	
 	//1 sindico ; 2 atendente ; 3 funcionario ; 0 não entra no sistema ; 4 Administrador
 	//FAZER INTERFACE PRA ESCOLHER EMPRESA ATRAVES DE ~CHECK BOX~ <- usa combobox pf
 	
@@ -67,10 +65,6 @@ public class Pessoa {
 		return acesso;
 	}
 
-	public ArrayList<Pessoa> getAr() {
-		return ar;
-	}
-
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
@@ -81,10 +75,6 @@ public class Pessoa {
 
 	public void setAcesso(boolean acesso) {
 		this.acesso = acesso;
-	}
-
-	public void setAr(ArrayList<Pessoa> ar) {
-		this.ar = ar;
 	}
 
 	public String getCnpj() {
@@ -192,28 +182,28 @@ public class Pessoa {
 
 	
 	
-	public void consulta(){
-		boolean a = true;	
-		setNumero();
-		int x =1;
-		int aux=1;
-		while(a){
-		
-			PessoaDao con = new PessoaDao();
-			Pessoa cont = con.consulta(x);
-			if(cont.getCpf() !=null ){
-			ar.add(cont);
-			aux++;
-			//System.out.println("x   "+x);
-			//System.out.println("aux   "+aux);
-			
-			}else if(aux>numero){
-				a=false;
-			}
-			x++;
-		}
-	
-	}
+//	public void consulta(){
+//		boolean a = true;	
+//		setNumero();
+//		int x =1;
+//		int aux=1;
+//		while(a){
+//		
+//			PessoaDao con = new PessoaDao();
+//			Pessoa cont = con.consulta(x);
+//			if(cont.getCpf() !=null ){
+//			ar.add(cont);
+//			aux++;
+//			//System.out.println("x   "+x);
+//			//System.out.println("aux   "+aux);
+//			
+//			}else if(aux>numero){
+//				a=false;
+//			}
+//			x++;
+//		}
+//	
+//	}
 
 	
 

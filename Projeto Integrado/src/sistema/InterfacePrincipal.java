@@ -1,16 +1,34 @@
 package sistema;
 
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.awt.*;
-import javax.swing.*;
-import interfacesCadastroConsulta.*;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+
+import interfacesCadastroConsulta.InterfaceCadastraEmpresa;
+import interfacesCadastroConsulta.InterfaceCadastraFuncionario;
+import interfacesCadastroConsulta.InterfaceConsultaAcessos;
+import interfacesCadastroConsulta.InterfaceConsultaEmpresa;
+import interfacesCadastroConsulta.InterfaceConsultaFuncionario;
 import login.CriaLogin;
 import login.LoginGUI;
 import model.Pessoa;
+import service.PessoaService;
 
 
 
@@ -27,6 +45,7 @@ public class InterfacePrincipal extends JFrame {
 		private ResourceBundle bn;
 		private JPanel jp;
 		public int perfil;
+		private PessoaService pesService;
 	
 		
 		public InterfacePrincipal( ResourceBundle a,int perfil){
@@ -35,6 +54,8 @@ public class InterfacePrincipal extends JFrame {
 			this.perfil = perfil;
 			setTitle(bn.getString("menu.janela.titulo"));
 			AllHandler ah = new AllHandler();
+			
+			pesService = new PessoaService();
 			
 			String [] jbname =  {
 					bn.getString("menu.botao.cadastrar"),bn.getString("menu.botao.consultar"),
@@ -112,7 +133,7 @@ public class InterfacePrincipal extends JFrame {
 			bar.add(regMenu);
 			bar.add(fecharMenu);
 			setVisible(true);
-			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setResizable(false);
 			setSize(755,515 ); 
 		
@@ -158,10 +179,6 @@ public class InterfacePrincipal extends JFrame {
 			
 			
 		}
-	
-		
-		
-		
 	
 	private class AllHandler implements ActionListener{
 		
@@ -225,17 +242,13 @@ public class InterfacePrincipal extends JFrame {
 				}
 				if(e.getSource() == jb[2] ){
 				 ArrayList<Pessoa> ar = new ArrayList<Pessoa> ();
-				 Pessoa ps = new Pessoa();
-				 ps.consulta();
-				 ar = ps.getAr();
-				 Iterator<Pessoa> it = ar.iterator();
+				 ar = pesService.getLista();
 				 CriaLogin cr = new CriaLogin();
 				 cr.criaArquivo();
-				 while(it.hasNext()){
-					 Pessoa aux = it.next();
+				 for(Pessoa p : ar){
 					 //perfil,login,senha,hem,hemi
-					 
-					 cr.addLogin(aux.getPerfil(),aux.getId(),aux.getSenha(),aux.getEntradaMax(),aux.getEntradaMin(),aux.isAcesso()); 
+					 System.out.println(p);
+					 cr.addLogin(p.getPerfil(),p.getId(),p.getSenha(),p.getEntradaMax(),p.getEntradaMin(),p.isAcesso()); 
 					 
 				 }
 				 

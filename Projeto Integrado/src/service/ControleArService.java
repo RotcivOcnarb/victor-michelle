@@ -38,7 +38,7 @@ public class ControleArService {
 				int i = 0;
 				int i2 = 0;
 				for(Conjunto c : conjuntos){
-					if(c.isOcupado()){
+					if(c.isOcupado() == 1){
 						int rand = (int)(Math.random()*40);
 						temperaturaAtual[i] = rand;
 					output.format("%s %s ",i2,rand);

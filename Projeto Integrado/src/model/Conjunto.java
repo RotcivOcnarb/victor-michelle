@@ -2,21 +2,21 @@ package model;
 
 public class Conjunto {
 	
-	private boolean ocupado;
+	private int ocupado;
 	private int id;
 	private String cnpj;
 	
-	public Conjunto(int id, boolean ocupado, String cnpj) {
+	public Conjunto(int id, int ocupado, String cnpj) {
 		super();
 		this.ocupado = ocupado;
 		this.id = id;
 	}
 
-	public boolean isOcupado() {
+	public int isOcupado() {
 		return ocupado;
 	}
 
-	public void setOcupado(boolean ocupado) {
+	public void setOcupado(int ocupado) {
 		this.ocupado = ocupado;
 	}
 
